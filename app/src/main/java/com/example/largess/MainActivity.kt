@@ -11,9 +11,11 @@ import androidx.compose.runtime.setValue
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.largess.screen.HomeScreen
+import com.example.largess.screen.AddScreen
 import com.example.largess.screen.LoginScreen
+import com.example.largess.screen.PhotoAddScreen
 import com.example.largess.screen.SigninScreen
+import com.example.largess.screen.home.HomeScreen
 import com.example.largess.ui.theme.LargessTheme
 
 class MainActivity : ComponentActivity() {
@@ -62,9 +64,37 @@ fun App() {
             }
         }
         composable("home") {
-            HomeScreen()
+            HomeScreen(
+                navController = navController,
+                onAddClick = {
+                    currentScreen = "add"
+                    navController.navigate("add") {
+                        popUpTo("home") { inclusive = true }
+                    }
+                }
+            )
+        }
+        composable("add") {
+            AddScreen(navController = navController,
+                onAddClick = {
+                    currentScreen = "add"
+                    navController.navigate("addPhoto")
+                },
+                onAddPhotoClick = {
+                    currentScreen = "addPhoto"
+                    navController.navigate("addPhoto") {
+                        popUpTo("add") { inclusive = true }
+                    }
+
+                }
+            )
+        }
+        composable("addPhoto"){
+            PhotoAddScreen(navController = navController,
+            ) {
+
+            }
         }
     }
-
 }
 

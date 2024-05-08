@@ -1,15 +1,17 @@
-package com.example.largess.screen
-
-
+package com.example.largess.screen.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.Modifier
 import androidx.compose.material.BottomAppBar
 import androidx.compose.material.BottomNavigation
@@ -28,6 +30,9 @@ import androidx.compose.material.TextButton
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.AlertDialogDefaults.shape
+import androidx.compose.material3.AssistChipDefaults
+import androidx.compose.material3.AssistChipDefaults.shape
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
@@ -36,6 +41,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -43,10 +49,12 @@ import androidx.compose.ui.unit.dp
 import com.example.largess.R
 import com.example.largess.ui.theme.Poppins
 import com.example.largess.ui.theme.secondColor
+import androidx.compose.ui.graphics.Shape
+import androidx.navigation.NavController
 
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
+fun HomeScreen(modifier: Modifier = Modifier,navController: NavController,onAddClick:() -> Unit) {
     var selectedTab by remember { mutableStateOf(0) }
     val home = painterResource(id = R.drawable.home_24)
     val search = painterResource(id = R.drawable.search_24)
@@ -57,13 +65,13 @@ fun HomeScreen(modifier: Modifier = Modifier) {
     Scaffold(
         topBar = {
             TopAppBar(
-                    backgroundColor = secondColor,
-                    contentColor = Color.White,
+                backgroundColor = secondColor,
+                contentColor = Color.White,
                 title = {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(start = 5.dp , end = 60.dp),
+                            .padding(start = 5.dp, end = 60.dp),
                         contentAlignment = Alignment.Center,
                     )
                     {
@@ -115,6 +123,8 @@ fun HomeScreen(modifier: Modifier = Modifier) {
             BottomAppBar(
                 backgroundColor = secondColor,
                 contentColor = Color.White,
+                elevation = 2.dp,
+                cutoutShape = CircleShape,
                 content = {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -133,6 +143,7 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                                 contentDescription = "Search"
                             )
                         }
+                        Spacer(modifier =Modifier.padding(10.dp))
                         IconButton(onClick = { selectedTab = 2 }) {
                             androidx.compose.material3.Icon(
                                 painter = message,
@@ -151,19 +162,21 @@ fun HomeScreen(modifier: Modifier = Modifier) {
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { /* Define the action for the FloatingActionButton */ },
-                modifier = Modifier
-                    .padding(16.dp)
+                onClick = { onAddClick()
+                    navController.navigate("add")  {
 
+                    } },
+                modifier = Modifier
+                    .size(80.dp)
+                    .padding(8.dp)
+                    .background(Color.White)
             ) {
                 androidx.compose.material3.Icon(Icons.Default.Add, contentDescription = "Add")
             }
         },
         isFloatingActionButtonDocked = true,
         floatingActionButtonPosition = FabPosition.Center,
-        backgroundColor = secondColor,
-        contentColor = Color.White
+        backgroundColor = Color.White,
+        contentColor = secondColor
     )
 }
-
-
